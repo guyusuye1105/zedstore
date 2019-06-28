@@ -1,2 +1,2 @@
-# baiduYun
-测试用，也做一些小文件的分享
+# zedstore
+thinkphp5(tp5)+amazeUi做的开源商城

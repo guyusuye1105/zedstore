@@ -1,1 +1,7 @@
-/test/config/data.txt
+.idea
+composer.lock
+*.log
+
+*.css.map
+.sass-cache
+/app

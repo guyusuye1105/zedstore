@@ -1,0 +1,122 @@
+<?php
+/**
+ * 数据库方法
+ */
+// 1 获取数据库名字
+getTable();
+/**
+ * 返回
+ */
+// 1 controller.php
+if (!$user = UserModel::getUser($token)) {
+    throw new BaseException(['code' => -1, 'msg' => '没有找到用户信息']);
+}
+// 2数组变成对象返回
+return resultArray(['data' => $data]);
+
+
+/**
+ * 获取分类
+ */
+public function getList_old($id,$page=1,$pagesize='')
+{
+    $map = [];
+    if ($id != '') {
+        $map['id'] = ['=', $id];
+    }
+    /*    $res = $this
+            ->where($map)
+            ->paginate($pagesize, false, [
+                'query' => Request::instance()->request()
+            ]);
+;
+
+       p($res);
+       return $res;*/
+    // $page = 1;
+    //  $pagesize = 3;
+
+    $res = db($this->name)->select();
+    $total = count($res);//总条数
+    $start=($page-1)*$pagesize;//偏移量，当前页-1乘以每页显示条数
+    $rows = array_slice($res,$start,$pagesize);
+    $last_page = ceil($total/$pagesize);
+
+    $res2['total'] = $total;
+    $res2['rows'] = $rows;
+    $res2['last_page'] = $last_page;
+    $obj=newBootstrap($rows,1,1,1);
+    p($obj);
+    // $a=$obj;
+    $a=$obj->render();
+    dump($a);die;
+    //p($res2);
+    return $res2;
+}
+public function getList($id,$page=1,$pagesize=''){
+
+    config('database.resultset_type','array');
+    P(config('database.resultset_type'));
+
+}
+
+//用户列表
+public function userlistAction()
+{
+    //分页
+    //当前页，默认为1
+    $curPage = isset($_GET['curPage']) ? $_GET['curPage'] : 1;
+
+    //获取所有的用户数据
+    // 在 getTotalRows() 里面我是用count(id) as total 查询的
+    $totalRows = $this->_db->getTotalRows();
+    $totalRows = $totalRows['total'];
+
+    //自定义一个最大的页码数
+    $rowsPerPage = 10;
+
+    //获取数据
+    $offset = ($curPage - 1) * $rowsPerPage;
+
+    //查询每页用户列表
+    // 在 selectAll() 中，根据偏移量,使用limit 查询每页的数据
+    $ret = $this->_db->selectAll($offset, $rowsPerPage);
+
+    //总页数
+    $totalpage = ceil($totalRows / $rowsPerPage);
+
+    //存储页面字符串
+    $pageNumString = '';
+
+    if ($curPage <= 5) {
+        $begin = 1;
+        $end = $totalpage >= 10 ? 10 : $totalpage;
+    } else {
+        $end = $curPage + 5 > $totalpage ? $totalpage : $curPage + 5;
+        $begin = $end - 9 <= 1 ? 1 : $end - 9;
+    }
+
+    //上一页
+    $prev = $curPage - 1 <= 1 ? 1: $curPage - 1;
+    $pageNumString .= "<li><a href='/user/userlist?curPage=1'>首页</a></li>";
+    $pageNumString .= "<li><a href='/user/userlist?curPage=$prev'>&laquo;</a></li>";
+
+    //根据起始页与终止页将当前页面的页码显示出来
+    for ($i = $begin; $i <= $end;$i ++) {
+        //使用if实现高亮显示当前点击的页码
+        //这是 bootstrap的全局样式
+        if ($curPage == $i) {
+            $pageNumString .= "<li class='active'><a href='/user/userlist?curPage=$i'>$i</a></li>";
+        } else {
+            $pageNumString .= "<li><a href='/user/userlist?curPage=$i'>$i</a></li>";
+        }
+    }
+
+    //实现下一页
+    $next = $curPage + 1 >= $totalpage ? $totalpage : $curPage + 1;
+    $pageNumString .= "<li><a href='/user/userlist?curPage=$next'>&raquo;</a></li>";
+    $pageNumString .= "<li><a href='/user/userlist?curPage=$totalpage'>尾页</a></li>";
+
+    $this->getView()->assign('pageNumString', $pageNumString);
+    $this->getView()->assign("ret",$ret);
+}

@@ -1,0 +1,11 @@
+{
+  "name": "(用户端)门店小程序接口",
+  "description": "(用户端)门店小程序接口",
+  "title": "(用户端)门店小程序接口",
+  "url" : "https://mp.minstech.cn/addons/mt2_mshop/web/index.php?s=/",
+  "sampleUrl": "https://mp.minstech.cn/addons/mt2_mshop/web/index.php?s=/",
+  "template": {
+    "withCompare": true,
+    "withGenerator": true
+  }
+}

@@ -1,5 +1,6 @@
 # zedstore
-thinkphp5(tp5)+amazeUi做的技能服务商城
+thinkphp5+amazeUi做的技能服务商城
+适合新手学习tp5
 你可以在该商场获得游戏陪玩，线下陪玩，家教服务，跑腿代办，摄影约拍等私人服务
 
 环境要求：<br>

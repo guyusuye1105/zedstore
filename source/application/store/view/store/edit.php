@@ -152,7 +152,7 @@
 <script src="assets/store/plugins/umeditor/umeditor.config.js"></script>
 <script src="assets/store/js/goods.spec.js"></script>
 
-<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=5w3ODGXuLmKOkGgsDVsZ8Q5wguwKf1Xu"></script>
+<!--<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=你的密钥"></script>-->
 <script type="text/javascript">
     $(function () {
 
